@@ -38,7 +38,7 @@
 		"vite-tsconfig-paths": "^5.1.4"
 	},
 	"lint-staged": {
-		"*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
+		"*.{js,ts,jsx,tsx,json,css}": [
 			"biome check --write --no-errors-on-unmatched"
 		]
 	}
