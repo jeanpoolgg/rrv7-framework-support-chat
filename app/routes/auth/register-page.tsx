@@ -1,4 +1,5 @@
 import { Label } from "@radix-ui/react-label";
+import { Link } from "react-router";
 import placeholder from "~/assets/images/placeholder.svg";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
@@ -91,9 +92,9 @@ const RegisterPage = () => {
 							</div>
 							<div className="text-center text-sm">
 								Already have an account?{" "}
-								<a href="/" className="underline underline-offset-4">
-									Login
-								</a>
+								<Link to="/auth/login" className="underline underline-offset-4">
+									Log in
+								</Link>
 							</div>
 						</div>
 					</form>

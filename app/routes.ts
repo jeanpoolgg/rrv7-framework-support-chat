@@ -23,6 +23,7 @@ export default [
 		layout("layouts/chat-layout.tsx", [
 			index("routes/chat/no-chat-selected-page.tsx"),
 			route(":clientId", "routes/chat/client-chat-page.tsx"),
+			route("testing", "routes/auth/testing-page.tsx"),
 		]),
 	]),
 ] satisfies RouteConfig;
