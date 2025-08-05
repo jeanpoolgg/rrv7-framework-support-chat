@@ -1,5 +1,5 @@
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { X } from "lucide-react";
+import { LogOut, X } from "lucide-react";
 import { NavLink, Outlet } from "react-router";
 import { Button } from "~/components/ui/button";
 
@@ -14,7 +14,7 @@ const ChatLayout = () => {
 						<span className="font-semibold">NexTalk</span>
 					</div>
 				</div>
-				<ScrollArea className="h-[calc(100vh-64px)]">
+				<ScrollArea className="h-[calc(100vh-128px)]">
 					<div className="space-y-4 p-4">
 						<div className="space-y-1">
 							<h3 className="px-2 text-sm font-semibold">Contacts</h3>
@@ -105,6 +105,16 @@ const ChatLayout = () => {
 						</div>
 					</div>
 				</ScrollArea>
+				<div className="p-4 border-t flex justify-center items-center">
+					<Button
+						variant="outline"
+						size="sm"
+						className="w-full flex items-center gap-2 justify-center"
+					>
+						<LogOut />
+						Cerrar sesión
+					</Button>
+				</div>
 			</div>
 
 			{/* Main Content */}
