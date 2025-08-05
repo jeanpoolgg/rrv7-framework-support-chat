@@ -1,9 +1,9 @@
-import { Label } from "@radix-ui/react-label";
 import { Link } from "react-router";
 import placeholder from "~/assets/images/placeholder.svg";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 
 const RegisterPage = () => {
 	return (

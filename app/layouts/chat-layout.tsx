@@ -1,7 +1,7 @@
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { LogOut, X } from "lucide-react";
 import { NavLink, Outlet } from "react-router";
 import { Button } from "~/components/ui/button";
+import { ScrollArea } from "~/components/ui/scroll-area";
 
 const ChatLayout = () => {
 	return (

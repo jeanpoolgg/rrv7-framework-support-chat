@@ -1,7 +1,7 @@
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Copy, Download, Send, ThumbsDown, ThumbsUp } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
+import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";
 
 interface Message {
