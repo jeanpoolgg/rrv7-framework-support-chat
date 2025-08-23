@@ -3,8 +3,19 @@ import { Outlet } from "react-router";
 import { ContactList } from "~/chat/components/ContactList";
 import { ContactInformationCard } from "~/chat/components/contact-information/ContactInformationCard";
 import { Button } from "~/components/ui/button";
+import { getClients } from "~/fake/fake-data";
+import type { Route } from "./+types/chat-layout";
 
-const ChatLayout = () => {
+// Traer datos
+export async function loader() {
+	const clients = await getClients();
+	console.log(clients);
+	return { clients };
+}
+
+const ChatLayout = ({ loaderData }: Route.ComponentProps) => {
+	const { clients } = loaderData;
+
 	return (
 		<div className="flex h-screen bg-background">
 			{/* Sidebar */}
@@ -15,7 +26,7 @@ const ChatLayout = () => {
 						<span className="font-semibold">NexTalk</span>
 					</div>
 				</div>
-				<ContactList />
+				<ContactList clients={clients} />
 				<div className="p-4 border-t flex justify-center items-center">
 					<Button
 						variant="outline"

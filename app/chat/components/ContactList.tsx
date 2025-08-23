@@ -1,8 +1,13 @@
 import { NavLink } from "react-router";
 import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
+import type { Client } from "../interfaces/chat.interface";
 
-export const ContactList = () => {
+interface Props {
+	clients: Client[];
+}
+
+export const ContactList = ({ clients }: Props) => {
 	return (
 		<ScrollArea className="h-[calc(100vh-128px)]">
 			<div className="space-y-4 p-4">
@@ -10,66 +15,26 @@ export const ContactList = () => {
 					<h3 className="px-2 text-sm font-semibold">Contacts</h3>
 					<div className="space-y-1">
 						{/* CONTACTS */}
-						<NavLink
-							to="/chat"
-							end
-							className={({ isActive }) =>
-								[
-									"flex items-center gap-2 w-full px-3 py-2 rounded-lg transition-colors",
-									isActive
-										? "bg-muted font-semibold text-primary"
-										: "hover:bg-muted/70 text-foreground/80",
-								].join(" ")
-							}
-						>
-							<div className="h-6 w-6 rounded-full bg-blue-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
-								G5
-							</div>
-							G5 Customer
-						</NavLink>
-						<NavLink
-							to="/chat/abc"
-							className={({ isActive }) =>
-								[
-									"flex items-center gap-2 w-full px-3 py-2 rounded-lg transition-colors",
-									isActive
-										? "bg-muted font-semibold text-primary"
-										: "hover:bg-muted/70 text-foreground/80",
-								].join(" ")
-							}
-						>
-							<div className="h-6 w-6 rounded-full bg-green-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
-								JD
-							</div>
-							John Doe
-						</NavLink>
-						<Button
-							variant="ghost"
-							className="flex items-center gap-2 w-full px-3 py-2 rounded-lg justify-start hover:bg-muted/70 text-foreground/80"
-						>
-							<div className="h-6 w-6 rounded-full bg-purple-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
-								AS
-							</div>
-							Alice Smith
-						</Button>
-						<Button
-							variant="ghost"
-							className="flex items-center gap-2 w-full px-3 py-2 rounded-lg justify-start hover:bg-muted/70 text-foreground/80"
-						>
-							<div className="h-6 w-6 rounded-full bg-yellow-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
-								RJ
-							</div>
-							Robert Johnson
-						</Button>
-						<Button
-							variant="ghost"
-							className="flex items-center gap-2 w-full px-3 py-2 rounded-lg justify-start hover:bg-muted/70 text-foreground/80"
-						>
-							<div className="h-6 w-6 rounded-full bg-pink-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
-								EW
-							</div>
-							Emma Wilson
-						</Button>
+
+						{clients.map((client) => (
+							<NavLink
+								key={client.id}
+								to={`/chat/client/${client.id}`}
+								className={({ isActive }) =>
+									[
+										"flex my-2  items-center gap-2 w-full px-3 py-2 rounded-lg transition-colors",
+										isActive
+											? "bg-muted font-semibold text-primary"
+											: "hover:bg-muted/50 text-foreground/80",
+									].join(" ")
+								}
+							>
+								<div className="h-6 w-6 rounded-full bg-gray-300 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
+									JD
+								</div>
+								<span className="text-gray-400">{client.name}</span>
+							</NavLink>
+						))}
 					</div>
 				</div>
 				<div className="pt-4 border-t mt-4">
