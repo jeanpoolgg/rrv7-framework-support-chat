@@ -1,5 +1,41 @@
 import { Link } from "react-router";
+import { sleep } from "~/lib/sleep";
 import type { Route } from "./+types/testing-args-page";
+
+export async function clientLoader() {
+	await sleep(2000);
+	return { hola: "mundo" };
+}
+
+export function HydrateFallback() {
+	return <p>Loading Page...</p>;
+}
+
+export function headers() {
+	return {
+		"X-Stretchy-Pants": "its for fun",
+		"Cache-Control": "max-age=300, s-maxage=3600",
+	};
+}
+
+// export function links() {
+// 	return [
+// 		{
+// 			rel: "icon",
+// 			href: "/favicon.png",
+// 			type: "image/png",
+// 		},
+// 		{
+// 			rel: "stylesheet",
+// 			href: "https://example.com/some/styles.css",
+// 		},
+// 		{
+// 			rel: "preload",
+// 			href: "/images/banner.jpg",
+// 			as: "image",
+// 		},
+// 	];
+// }
 
 export default function TestingArgsPage({
 	loaderData,
@@ -8,6 +44,19 @@ export default function TestingArgsPage({
 }: Route.ComponentProps) {
 	return (
 		<div>
+			{/* Metadatos para SEO y título de la página */}
+			<title>Testing Args Page</title>
+			<meta
+				name="description"
+				content="Esta es la página de prueba de rutas y argumentos"
+			/>
+			<meta property="og:title" content="Testing Args Page" />
+			<meta
+				property="og:description"
+				content="Esta es la página de prueba de rutas y argumentos"
+			/>
+
+			{/* Contenido de la página */}
 			<h1 className="font-bold text-2xk">Testing Args Page</h1>
 			<p>Loader Data: {JSON.stringify(loaderData)}</p>
 			<p>Action Data: {JSON.stringify(actionData)}</p>
