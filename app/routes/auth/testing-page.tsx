@@ -30,7 +30,7 @@ export default function TestingPage({
 			<p>Action Data: {JSON.stringify(actionData)}</p>
 			<p>Route Parameters: {JSON.stringify(params)}</p>
 			<NavLink
-				to="/auth/testing-args"
+				to="/auth/testing-args/ABC-123/Juan/25"
 				className={({ isPending }) =>
 					isPending
 						? "text-red-500 underline text-2xl"
