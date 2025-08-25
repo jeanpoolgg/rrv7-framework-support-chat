@@ -1,4 +1,9 @@
+import { redirect } from "react-router";
 import { Welcome } from "../welcome/welcome";
+
+export function loader() {
+	return redirect("/chat");
+}
 
 export function meta() {
 	return [
