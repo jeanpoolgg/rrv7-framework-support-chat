@@ -1,4 +1,4 @@
-import { Form, NavLink } from "react-router";
+import { Form, NavLink, useNavigation } from "react-router";
 import { sleep } from "~/lib/sleep";
 import type { Route } from "./+types/testing-page";
 
@@ -54,6 +54,10 @@ export default function TestingPage({
 	actionData,
 	params,
 }: Route.ComponentProps) {
+	const navigation = useNavigation();
+	const isPosting = navigation.state === "submitting";
+	console.log({ navigation, isPosting });
+
 	return (
 		<div>
 			<h1 className="font-bold text-2xk">Testing Page</h1>
@@ -83,10 +87,11 @@ export default function TestingPage({
 					name="age"
 				/>
 				<button
+					disabled={isPosting}
 					type="submit"
-					className="cursor-pointer bg-blue-500 text-white rounded-md p-2"
+					className="cursor-pointer bg-blue-500 text-white rounded-md p-2 disabled:opacity-50"
 				>
-					Submit
+					{isPosting ? "Submitting..." : "Submit"}
 				</button>
 			</Form>
 		</div>
