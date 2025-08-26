@@ -1,9 +1,22 @@
-import { Link, useNavigate } from "react-router";
+import { Link, redirect, useNavigate } from "react-router";
 import placeholder from "~/assets/images/placeholder.svg";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { getSession } from "~/sessions.server";
+import type { Route } from "./+types/login-page";
+
+export async function loader({ request }: Route.LoaderArgs) {
+	// session type
+	const session = await getSession(request.headers.get("Cookie"));
+
+	if (session.get("userId")) {
+		return redirect("/chat");
+	}
+
+	return null;
+}
 
 const LoginPage = () => {
 	const navigate = useNavigate();
