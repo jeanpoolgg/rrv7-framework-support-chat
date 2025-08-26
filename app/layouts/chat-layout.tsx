@@ -1,15 +1,22 @@
 import { LogOut, X } from "lucide-react";
-import { Outlet } from "react-router";
+import { Form, Outlet, redirect } from "react-router";
 import { ContactList } from "~/chat/components/ContactList";
 import { ContactInformationCard } from "~/chat/components/contact-information/ContactInformationCard";
 import { Button } from "~/components/ui/button";
 import { getClients } from "~/fake/fake-data";
+import { getSession } from "~/sessions.server";
 import type { Route } from "./+types/chat-layout";
 
 // Traer datos
-export async function loader() {
+export async function loader({ request }: Route.ClientLoaderArgs) {
 	const clients = await getClients();
 	console.log(clients);
+
+	const session = await getSession(request.headers.get("Cookie"));
+	if (!session.has("userId")) {
+		return redirect("/auth/login");
+	}
+
 	return { clients };
 }
 
@@ -28,14 +35,17 @@ const ChatLayout = ({ loaderData }: Route.ComponentProps) => {
 				</div>
 				<ContactList clients={clients} />
 				<div className="p-4 border-t flex justify-center items-center">
-					<Button
-						variant="outline"
-						size="sm"
-						className="w-full flex items-center gap-2 justify-center"
-					>
-						<LogOut />
-						Cerrar sesión
-					</Button>
+					<Form method="post" action="/auth/logout">
+						<Button
+							variant="outline"
+							size="sm"
+							type="submit"
+							className="w-full cursor-pointer flex items-center gap-2 justify-center"
+						>
+							<LogOut />
+							Cerrar sesión
+						</Button>
+					</Form>
 				</div>
 			</div>
 

@@ -10,7 +10,7 @@ import type { Route } from "./+types/login-page";
 export async function loader({ request }: Route.LoaderArgs) {
 	// session type
 	const session = await getSession(request.headers.get("Cookie"));
-
+	console.log("hay session?", session.has("userId"));
 	if (session.has("userId")) {
 		return redirect("/chat");
 	}
