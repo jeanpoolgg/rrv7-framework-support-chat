@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { data, Form, Link, redirect, useNavigate } from "react-router";
 import placeholder from "~/assets/images/placeholder.svg";
 import { Button } from "~/components/ui/button";
@@ -29,15 +30,28 @@ export async function action({ request }: Route.ActionArgs) {
 	const session = await getSession(request.headers.get("Cookie"));
 	const form = await request.formData();
 	const email = form.get("email");
-	const password = form.get("password");
+	// const password = form.get("password");
 
 	if (email === "algo@gmail.com") {
 		session.flash("error", "Invalid email");
-		return redirect("/auth/login?error=Invalid Email", {
-			headers: {
-				"Set-Cookie": await commitSession(session),
+		// return redirect("/auth/login?error=Invalid Email", {
+		// 	headers: {
+		// 		"Set-Cookie": await commitSession(session),
+		// 	},
+		// });
+
+		return data(
+			{
+				error: "Invalid Email",
 			},
-		});
+			{
+				headers: {
+					"Set-Cookie": await commitSession(session),
+				},
+				status: 400,
+				statusText: "Bad Request",
+			},
+		);
 	}
 
 	session.set("userId", "U1-12345");
@@ -51,8 +65,14 @@ export async function action({ request }: Route.ActionArgs) {
 	});
 }
 
-const LoginPage = () => {
+const LoginPage = ({ actionData }: Route.ComponentProps) => {
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (actionData?.error) {
+			alert(actionData.error);
+		}
+	}, [actionData]);
 
 	const onAppleSingIn = () => {
 		navigate("/auth/testing");
