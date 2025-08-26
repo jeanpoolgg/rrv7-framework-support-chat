@@ -5,6 +5,7 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { loginUser } from "~/fake/fake-data";
 import { commitSession, getSession } from "~/sessions.server";
 import type { Route } from "./+types/login-page";
 
@@ -54,8 +55,11 @@ export async function action({ request }: Route.ActionArgs) {
 		);
 	}
 
-	session.set("userId", "U1-12345");
-	session.set("token", "token-1234567890");
+	const user = await loginUser();
+
+	session.set("userId", user.id);
+	session.set("token", user.token);
+	session.set("name", user.name);
 
 	// Login succeeded, sen them to the home page.
 	return redirect("/chat", {
