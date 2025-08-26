@@ -1,4 +1,4 @@
-import { NavLink } from "react-router";
+import { NavLink, useParams } from "react-router";
 import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import type { Client } from "../interfaces/chat.interface";
@@ -8,6 +8,8 @@ interface Props {
 }
 
 export const ContactList = ({ clients }: Props) => {
+	const { id } = useParams();
+
 	return (
 		<ScrollArea className="h-[calc(100vh-128px)]">
 			<div className="space-y-4 p-4">
@@ -20,19 +22,29 @@ export const ContactList = ({ clients }: Props) => {
 							<NavLink
 								key={client.id}
 								to={`/chat/client/${client.id}`}
-								className={({ isActive }) =>
+								className={({ isActive, isPending }) =>
 									[
-										"flex my-2  items-center gap-2 w-full px-3 py-2 rounded-lg transition-colors",
-										isActive
-											? "bg-muted font-semibold text-primary"
-											: "hover:bg-muted/50 text-foreground/80",
+										"flex my-2 items-center gap-2 w-full px-3 py-2 rounded-lg transition-colors",
+										isPending
+											? "bg-gray-200 text-gray-900"
+											: isActive
+												? "bg-black text-white font-semibold"
+												: "hover:bg-gray-100 text-gray-600",
 									].join(" ")
 								}
 							>
-								<div className="h-6 w-6 rounded-full bg-gray-300 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
+								<div className="h-6 w-6 rounded-full bg-gray-400 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
 									JD
 								</div>
-								<span className="text-gray-400">{client.name}</span>
+								<span
+									className={
+										id === client.id
+											? "text-white font-medium"
+											: "text-gray-400 group-hover:text-gray-600"
+									}
+								>
+									{client.name}
+								</span>
 							</NavLink>
 						))}
 					</div>
