@@ -3,37 +3,23 @@ import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";
+import { getClientMessages } from "~/fake/fake-data";
+import { formatDate } from "~/lib/date-formatter";
+import type { Route } from "./+types/client-chat-page";
 
-interface Message {
-	id: number;
-	role: "agent" | "user";
-	content: string;
-	timestamp: string;
+export async function loader({ params }: Route.LoaderArgs) {
+	const idClient = params.id;
+	const data = await getClientMessages(idClient);
+	return data;
 }
 
-const ClientChatPage = () => {
+const ClientChatPage = ({ loaderData }: Route.ComponentProps) => {
+	const messages = loaderData;
 	const [input, setInput] = useState("");
-	const [messages] = useState<Message[]>([
-		{
-			id: 1,
-			role: "agent",
-			content: "Hello, I am a generative AI agent. How may I assist you today?",
-			timestamp: "4:08:28 PM",
-		},
-		{
-			id: 2,
-			role: "user",
-			content: "Hi, I'd like to check my bill.",
-			timestamp: "4:08:37 PM",
-		},
-		{
-			id: 3,
-			role: "agent",
-			content:
-				"Please hold for a second.\n\nOk, I can help you with that\n\nI'm pulling up your current bill information\n\nYour current bill is $150, and it is due on August 31, 2024.\n\nIf you need more details, feel free to ask!",
-			timestamp: "4:08:37 PM",
-		},
-	]);
+
+	if (messages.length === 0) {
+		return <p>No hay mensajes</p>;
+	}
 
 	return (
 		<div className="flex-1 flex flex-col">
@@ -41,7 +27,7 @@ const ClientChatPage = () => {
 				<div className="space-y-4">
 					{messages.map((message) => (
 						<div key={message.id} className="w-full">
-							{message.role === "agent" ? (
+							{message.sender === "client" ? (
 								// Agent message - left aligned
 								<div className="flex gap-2 max-w-[80%]">
 									<div className="h-8 w-8 rounded-full bg-primary flex-shrink-0" />
@@ -49,7 +35,7 @@ const ClientChatPage = () => {
 										<div className="flex items-center gap-2">
 											<span className="text-sm font-medium">NexTalk</span>
 											<span className="text-sm text-muted-foreground">
-												{message.timestamp}
+												{formatDate(message.createdAt)}
 											</span>
 										</div>
 										<div className="p-3 bg-muted/50 rounded-lg">
@@ -79,7 +65,7 @@ const ClientChatPage = () => {
 									<div className="text-right mb-1">
 										<span className="text-sm font-medium mr-2">G5</span>
 										<span className="text-sm text-muted-foreground">
-											{message.timestamp}
+											{formatDate(message.createdAt)}
 										</span>
 									</div>
 									<div className="bg-black text-white p-3 rounded-lg max-w-[80%]">
@@ -93,6 +79,7 @@ const ClientChatPage = () => {
 					))}
 				</div>
 			</ScrollArea>
+
 			<div className="p-4 border-t">
 				<div className="flex items-center gap-2">
 					<Textarea
