@@ -3,21 +3,26 @@ import { Form, Link, Outlet, redirect } from "react-router";
 import { ContactList } from "~/chat/components/ContactList";
 import { ContactInformationCard } from "~/chat/components/contact-information/ContactInformationCard";
 import { Button } from "~/components/ui/button";
-import { getClients } from "~/fake/fake-data";
+import { getClient, getClients } from "~/fake/fake-data";
 import { getSession } from "~/sessions.server";
 import type { Route } from "./+types/chat-layout";
 
 // Traer datos
-export async function loader({ request }: Route.ClientLoaderArgs) {
-	const clients = await getClients();
-	console.log(clients);
-
+export async function loader({ request, params }: Route.ClientLoaderArgs) {
 	const session = await getSession(request.headers.get("Cookie"));
+	const userName = session.get("name");
+	const { id } = params;
+
 	if (!session.has("userId")) {
 		return redirect("/auth/login");
 	}
 
-	const userName = session.get("name");
+	const clients = await getClients();
+
+	if (id) {
+		const client = await getClient(id);
+		return { client, userName, clients };
+	}
 
 	return { clients, userName };
 }
